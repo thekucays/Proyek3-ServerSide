@@ -1,0 +1,125 @@
+<style>
+.ui-autocomplete { z-index: 2147483647 !important;}
+.sidebar { display: none;}
+#page-wrapper{ margin: 0 !important; }
+</style>
+<div class="row col-lg-12">
+    <h1> Edit Kendaraan </h1>
+
+    <div class="row col-lg-12">
+        <a href="<?php echo base_url('kendaraan/index') ?>" class="btn btn-primary"><i class="fa fa-file"> List</i></a>
+    </div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+<?php if( empty( $kendaraan)): ?>
+    <b class="error">Error: DATA KENDARAAN TIDAK DITEMUKAN</b>
+<?php else: ?>
+    <div class="row">
+        <form class="form" action="<?php echo base_url('so/add_so_header') ?>" method="post" name="header_form">
+            <div class="col-lg-6">
+                <label> ID Kendaraan </label>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input class="form-control " name="id_kendaraan" value="<?php echo $kendaraan->id_kendaraan ?>" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <label> Jenis Kendaraan </label>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input class="form-control " name="jenis_kendaraan" value="<?php echo $kendaraan->jenis_kendaraan ?>" />
+                    </div>
+                </div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="col-lg-12">
+                <input type="submit" class="btn btn-primary" style="margin-bottom: 40px;" name="submit_save" value="<?php echo lang('label_update') ?>" />
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="row col-lg-12 headertotalform">Loading...</div>
+
+<div class="modal errordialog fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><?php echo lang('Info') ?></h4>
+            </div>
+            <div class="modal-body">
+                <p class="errorpan"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" ><?php echo lang('button_close') ?></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<?php endif; ?>
+<link href="<?php echo base_url('resources/jqueryui/jquery-ui.min.css') ?>" rel="stylesheet"/>
+<script src="<?php echo base_url('resources/jqueryui/jquery-ui.min.js') ?>"></script>
+<script>
+$.ajaxSetup({cache: false, async: false});
+
+$(document).ready(function(){
+    $(".item_select").focus();
+
+    $("button[name='button_update_header']").click(function(event){
+
+        event.preventDefault();
+        //console.log('button update header just clicked broh');
+
+        $.ajax({
+            url : "<?php echo base_url('so/update_so_header') ?>",
+            type : "POST",
+            data : $("form[name='header_form']").serialize(),
+            success : function(msg)
+            {
+                var FLAG = 1,
+                    MSG = 2;
+                msg = msg.split('@@');
+
+                $("#header_form_status").html( msg[MSG] );
+            }
+        });
+    });
+    
+    $("[name='submit_save']").click(function(event){
+
+        console.log("updateee");
+
+        event.preventDefault();
+        $.ajax({
+            url : "<?php echo base_url('kendaraan/editKendaraan') ?>",
+            type: "POST",
+            data : $("form[name='header_form']").serialize(),
+            success : function(msg)
+            {
+                var FLAG = 1,
+                    MESSAGE = 2;
+
+                console.log(msg[FLAG]);
+
+                msg = msg.split('@@');
+
+                if( msg[FLAG] == '1')
+                {
+                    //window.location.reload();
+                    window.location.assign("<?php echo base_url('kendaraan/index') ?>");
+                }
+                else
+                {
+                    $('.modal-error').html( msg[MESSAGE] );
+                }
+            }
+        });
+        return false;
+    });
+});
+</script>
