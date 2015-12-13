@@ -26,8 +26,8 @@ $KECIL = 0;
     <tr>
         <!-- <td><?php //echo $index ?></td> -->
         <td><?php echo $records[$iRow]->id_bengkel ?>
-            <a class="fa fa-pencil" style="color:green;" href="<?php echo base_url('bengkel/add_so_detail/'. $records[$iRow]->id_bengkel) ?>"> </a>
-            <a class="fa fa-remove" style="color:red;" href="<?php echo base_url('bengkel/hapus_bengkel/'. $records[$iRow]->id_bengkel) ?>"> </a></td>
+            <a class="fa fa-pencil" style="color:green;" href="<?php echo base_url('bengkel/editBengkel/'. $records[$iRow]->id_bengkel) ?>"> </a>
+            <a class="fa fa-remove" style="color:red;" href="<?php echo base_url('bengkel/hapusBengkel/'. $records[$iRow]->id_bengkel) ?>"> </a></td>
         </td>
         <td align="center"><?php echo $records[$iRow]->nama_bengkel ?></td>
         <td align="center"><?php echo $records[$iRow]->koordinat ?></td>
