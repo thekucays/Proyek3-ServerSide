@@ -29,20 +29,25 @@ class Kendaraan extends CI_Controller {
     function addKendaraan(){
     	$save = $this->input->post('save');
 		if( $save ){
-			// di unset supaya ga kebawa parameter nya pas di insert di model
-			unset( $_POST['save'] );
+			$this->load->library('form_validation');
+            $this->form_validation->set_rules('jenis_kendaraan','Jenis Kendaraan','required');
 
-			$this->db->trans_start();
-			$hasil = $this->model_kendaraan->tambahKendaraan($_POST);
+            if($this->form_validation->run()){      
+				// di unset supaya ga kebawa parameter nya pas di insert di model
+				unset( $_POST['save'] );
 
-			if($hasil){
-				$this->db->trans_complete();
+				$this->db->trans_start();
+				$hasil = $this->model_kendaraan->tambahKendaraan($_POST);
+
+				if($hasil){
+					$this->db->trans_complete();
+				}
+				else{
+					$this->db->trans_rollback();
+				}
+
+				redirect('kendaraan', 'refresh');
 			}
-			else{
-				$this->db->trans_rollback();
-			}
-
-			redirect('kendaraan', 'refresh');
         }
 
         $this->_addKendaraan_form();
@@ -58,10 +63,15 @@ class Kendaraan extends CI_Controller {
     	$save = $this->input->post('submit_save');
 
         if ($save){
-            $bresult = $this->model_kendaraan->editKendaraan();
-            if($bresult){
-            	redirect('kendaraan/index');
-            }
+			$this->load->library('form_validation');
+            $this->form_validation->set_rules('jenis_kendaraan','Jenis Kendaraan','required');
+
+            if($this->form_validation->run()){ 
+	            $bresult = $this->model_kendaraan->editKendaraan();
+	            if($bresult){
+	            	redirect('kendaraan/index');
+	            }
+	        }
         }
 
         $params = array('id_kendaraan' => $id);
