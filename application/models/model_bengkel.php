@@ -25,4 +25,20 @@ class Model_bengkel extends CI_Model{
 			 return $this->db->delete('Bengkel');
 		}
 	}
+
+	function editBengkel(){
+		$data = array(
+			'id_bengkel' => $this->input->post('id_bengkel', true),
+			'nama_bengkel' => $this->input->post('nama_bengkel', true),
+			'koordinat' => $this->input->post('koordinat', true),
+			'jenis' => $this->input->post('jenis', true),
+			'deskripsi' => $this->input->post('deskripsi', true),
+			'rating' => $this->input->post('rating', true),
+			'kode-kec' => $this->input->post('kode-kec', true),
+			'isTubeless' => $this->input->post('isTubeless', true),
+			'contact_person' => $this->input->post('contact_person', true)
+		);
+
+		return $this->db->where('id_bengkel', $this->input->post('id_bengkel', true))->update('Bengkel', $data);
+	}
 }
