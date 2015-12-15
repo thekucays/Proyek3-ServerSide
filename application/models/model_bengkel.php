@@ -41,4 +41,13 @@ class Model_bengkel extends CI_Model{
 
 		return $this->db->where('id_bengkel', $this->input->post('id_bengkel', true))->update('Bengkel', $data);
 	}
+
+	function getDetailBengkel( $params = array() ){
+		if(isset($params['id_bengkel'])){
+			$this->db->where('id_bengkel', $params['id_bengkel']);
+
+			$query = $this->db->get('Bengkel')->row();
+			return $query;
+		}
+	}
 }
