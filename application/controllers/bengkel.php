@@ -35,7 +35,7 @@ class Bengkel extends CI_Controller {
             //$this->form_validation->set_rules('deskripsi','Deskripsi Kendaraan','required');
 
             //if($this->form_validation->run()){ 
-                $bresult = $this->model_jenis->rubahJenis();
+                $bresult = $this->model_bengkel->editBengkel();
                 if($bresult){
                     redirect('bengkel/index');
                 }
@@ -43,11 +43,11 @@ class Bengkel extends CI_Controller {
         }
 
         $params = array('id_bengkel' => $id);
-        $this->_rubahJenis_form($params);
+        $this->_editBengkel_form($params);
     }
     function _editBengkel_form($params = array()){
         if( isset($params['id_bengkel']) ){
-            $data['jenis'] = $this->model_bengkel->getDetailBengkel($params);
+            $data['bengkel'] = $this->model_bengkel->getDetailBengkel($params);
             $this->template2->write_view('content', 'bengkel/form_edit_bengkel', $data);
             $this->template2->render();
         }
